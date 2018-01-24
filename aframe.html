@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+
+    <script language="javascript">
+      AFRAME.registerComponent('flicker', {
+        schema: {},
+        init: function () {
+          
+          this.el.setAttribute('light', {
+            color: '#F99',
+            distance: 120,
+            intensity: 0.5,
+            type: 'point'
+          })
+        },
+        update: function () {
+          // Do something when component's data is updated.
+        },
+        remove: function () {
+          // Do something the component or its entity is detached.
+        },
+        setIntensity: function (i) {
+          this.el.setAttribute('light', {
+            color: '#F99',
+            distance: 120,
+            intensity: i,
+            type: 'point'
+          })
+        },
+        tick: function (time, timeDelta) {
+          console.log(this);
+          if (this.el.getAttribute('light').intensity===1) {
+            this.setIntensity(0.9)
+          }
+          else {
+            this.setIntensity(1)
+          }
+        }
+      });
+    </script>
+
+  </head>
+  <body>
+    <a-scene
+      environment="preset: forest; grid: none; shadow: true; lighting: point"
+      vr-mode-ui>
+
+      <a-assets>
+        <a-mixin
+          id="light"
+          material="color: #F99; shader: flat"
+          light="color: #F99; distance: 120; intensity: 1; type: point"
+          flicker>
+        </a-mixin>
+      </a-assets>
+
+      <a-camera universal-controls></a-camera>
+      <a-sky color="#ECECEC"></a-sky>
+      
+      <a-entity>
+        <a-entity mixin="light" position="-4.7 4.5 -1.5">
+        </a-entity>
+      </a-entity>
+
+      <a-obj-model
+        src="obj/PUSHILIN_campfire.obj"
+        mtl="obj/PUSHILIN_campfire.mtl"
+        position="-4.7 0.5 -1.5"
+        scale="1 1 1">
+      </a-obj-model>
+
+      <a-obj-model
+        src="obj/telescope/model.obj"
+        mtl="obj/telescope/materials.mtl"
+        position="2.473 0.7 0"
+        rotation="0 -88 0"
+        scale="2 2 2">
+      </a-obj-model>
+    </a-scene>
+  </body>
+</html>
